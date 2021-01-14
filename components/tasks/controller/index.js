@@ -25,13 +25,13 @@ class TaskController {
     }
     try {
       const resp = await this.taskService.create(newProduct)
-      if (resp.n > 0) {
+      if (resp) {
         return res.status(200).json({
-          updated: true
+          data: resp
         })
       } else {
-        return res.status(200).json({
-          updated: false
+        return res.status(400).json({
+          data: false
         })
       }
     } catch {
@@ -72,7 +72,7 @@ class TaskController {
     try {
       const resp = await this.taskService.delete(id)
       if (resp.deletedCount !== 0) {
-        return res.status(500).json({
+        return res.status(200).json({
           message: 'Borrado correctamente'
         })
       }
@@ -93,11 +93,14 @@ class TaskController {
       })
     }
     try {
-      const taskEdited = await this.taskService.edit(id, newTask)
-      console.log(taskEdited)
-      if (taskEdited) {
+      const resp = await this.taskService.edit(id, newTask)
+      if (resp.n > 0) {
         return res.status(200).json({
-          data: taskEdited
+          updated: true
+        })
+      } else {
+        return res.status(200).json({
+          updated: false
         })
       }
     } catch {
