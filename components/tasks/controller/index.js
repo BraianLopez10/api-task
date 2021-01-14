@@ -24,10 +24,14 @@ class TaskController {
       title
     }
     try {
-      const newTaskCreated = await this.taskService.create(newProduct)
-      if (newTaskCreated) {
+      const resp = await this.taskService.create(newProduct)
+      if (resp.n > 0) {
         return res.status(200).json({
-          data: newTaskCreated
+          updated: true
+        })
+      } else {
+        return res.status(200).json({
+          updated: false
         })
       }
     } catch {
