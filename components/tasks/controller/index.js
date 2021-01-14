@@ -18,9 +18,10 @@ class TaskController {
     }
   }
   async create(req, res) {
-    const { content } = req.body
+    const { content, title } = req.body
     const newProduct = {
-      content
+      content,
+      title
     }
     try {
       const newTaskCreated = await this.taskService.create(newProduct)
@@ -79,16 +80,16 @@ class TaskController {
 
   }
   async edit(req, res) {
-    const { content, id } = req.body
+    const { newTask, id } = req.body
 
-    if (!id || !content) {
+    if (!id || Object.keys(newTask).length === 0) {
       return res.status(400).json({
         message: 'Parametros invalidos',
         code: 400
       })
     }
     try {
-      const taskEdited = await this.taskService.edit(id, content)
+      const taskEdited = await this.taskService.edit(id, newTask)
       console.log(taskEdited)
       if (taskEdited) {
         return res.status(200).json({

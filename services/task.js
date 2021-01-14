@@ -20,8 +20,12 @@ class TaskService {
     console.log(res)
     return res
   }
-  async edit(id, content) {
-    const taskEdit = await TaskModel.updateOne({ _id: id }, { content })
+  async edit(id, newTask) {
+    const taskEdit = await TaskModel.updateOne({ _id: id }, { ...newTask })
+    return taskEdit
+  }
+  async updateState(newState, id) {
+    const taskEdit = await TaskModel.updateOne({ _id: id }, { done: newState })
     return taskEdit
   }
 }
