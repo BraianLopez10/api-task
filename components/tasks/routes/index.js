@@ -1,12 +1,21 @@
-const router = require('express').Router()
-const taskController = require('../controller')
-const TaskController = new taskController()
+const router = require("express").Router();
+const taskController = require("../controller");
+const TaskController = new taskController();
+const validate = require("../../../middlewares/validation");
+const schema = require("../../../utils/schema/task");
 
-router.route('/')
-  .get((req, res) => TaskController.getAll(req, res))
-  .post((req, res) => TaskController.create(req, res))
-  .put((req, res) => TaskController.edit(req, res))
-router.get('/:id', (req, res) => TaskController.getBy(req, res))
-router.delete('/:id', (req, res) => TaskController.delete(req, res))
+router.get("/", (req, res, next) => TaskController.getAll(req, res, next));
+router.post("/", validate(schema.createTask, "body"), (req, res, next) =>
+  TaskController.create(req, res, next)
+);
+router.put("/", validate(schema.updateTask, "body"), (req, res, next) =>
+  TaskController.edit(req, res, next)
+);
+router.get("/:id", validate(schema.idTask, "params"), (req, res, next) =>
+  TaskController.getBy(req, res, next)
+);
+router.delete("/:id", validate(schema.idTask, "params"), (req, res, next) =>
+  TaskController.delete(req, res, next)
+);
 
-module.exports = router
+module.exports = router;

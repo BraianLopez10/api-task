@@ -15,4 +15,4 @@ services:
     volumes: 
       - ./db:/data/db
     ports: 
-      - "4000:4000"
+      - "27017:27017"
