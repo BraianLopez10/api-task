@@ -1,7 +1,7 @@
 # api-task
 ## Routes
 
-<strong>GET</strong>api/task
+<strong>GET</strong> api/task
 
 <strong>GET</strong> api/task/:id
 
